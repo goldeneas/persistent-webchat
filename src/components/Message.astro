@@ -1,0 +1,19 @@
+---
+export interface Props {
+    text: string;
+    username: string;
+}
+
+const { username, text } = Astro.props;
+
+let today = new Date();
+const timestamp = today.getHours() + ":" + today.getMinutes();
+---
+
+<div class="bg-white border-2 rounded-md w-fit h-fit px-2">
+    <p>
+        <span class="font-medium">{username}</span>
+        <span class="font-normal">{text}</span>
+        <span class="font-extralight text-xs">{timestamp}</span>
+    </p>
+</div>
