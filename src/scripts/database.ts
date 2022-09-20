@@ -1,5 +1,5 @@
 import { app } from "./firebase";
-import { getFirestore, addDoc, getDocs, collection } from "firebase/firestore";
+import { getFirestore, addDoc, getDocs, collection, query, doc } from "firebase/firestore";
 
 const db = getFirestore(app);
 
@@ -18,8 +18,23 @@ async function storeMessage(username: string, text: string) {
 	}
 }
 
-async function getMessages() {
-	return getDocs(collection(db, "messages"));
+async function getMessages(): Promise<message[]> {
+	let messages: message[] = [];
+
+	await getDocs(collection(db, "messages"))
+	.then((docs) => {
+		docs.forEach((doc) => (
+			messages.push({
+				text: doc.data()["text"],
+				username: doc.data()["username"],
+				timestamp: doc.data()["timestamp"]
+			}),
+
+			console.log("Got document with id:", doc.id)
+		));
+	});
+
+	return messages;
 }
 
 export { storeMessage, getMessages }
