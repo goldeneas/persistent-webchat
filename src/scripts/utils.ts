@@ -7,4 +7,9 @@ function LOG(message: string) {
     console.log("LOG:", message);
 }
 
-export { LOG, ERROR }
+function validateInput(input: string) {
+    // check if input doesn't have spaces and if the input is not null
+    return (/[^ ]/.test(input) && input !== "");
+}
+
+export { LOG, ERROR, validateInput}

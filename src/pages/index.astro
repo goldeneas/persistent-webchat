@@ -6,11 +6,63 @@
 	<title>ChatRoom</title>
 </head>
 <body>
+    <script>
+        import { LOG } from "../scripts/utils";
 
-	<script>
-		// redirect to login page
-		window.location.replace("/login");
-	</script>
+		// get html elements from webpage
+        let go_button = (document.getElementById("go-btn") as HTMLButtonElement);
+        let username_input = (document.getElementById("username-input") as HTMLInputElement);
+        
+        // assign events
+        if(go_button !== null && username_input !== null) {
+		    go_button.addEventListener("click", () => {
+                const current_username = username_input.value;
 
+                // check if username is valid
+                if(current_username === "" || current_username === " ") { LOG("Invalid username"); return; }
+                // if it is, set it in localstorage
+                localStorage.setItem("username", current_username);
+                // and navigate to the chatroom
+                window.location.href = "/chatroom";
+            });
+
+			username_input.addEventListener("keypress", (event) => {
+				// lister for enter keydown
+				if(event.key === "Enter") {
+					// prevent default action
+					event.preventDefault();
+					// click the send button
+					go_button.click();
+				}
+			});
+	    }
+    </script>
+
+    <!-- background -->
+    <div class="absolute bg-gray-800 w-screen h-screen" />
+
+    <!-- username prompt -->
+    <div class="relative w-screen h-screen">
+
+        <!-- main header -->
+        <h1 class="absolute text-3xl font-thin text-white bottom-[55vh] left-[43.8vw]">
+            Chat Room
+        </h1>
+
+        <!-- username input -->
+        <input
+            type="text"
+            id="username-input"
+            class="absolute bg-white rounded-sm h-8 px-1.5 py-1 w-48 bottom-[50vh] left-[40vw]"
+            placeholder="username"
+        >
+
+        <!-- confirm username button -->
+        <button
+        id="go-btn"
+        class="absolute bg-sky-600 text-white rounded-sm w-24 h-8 bottom-[50vh] left-[51vw] font-thin">
+            login
+        </button>
+    </div>
 </body>
 </html>

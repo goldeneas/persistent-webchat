@@ -4,13 +4,20 @@ import { getFirestore, addDoc, getDocs, collection } from "firebase/firestore";
 const db = getFirestore(app);
 
 async function storeMessage(username: string, text: string) {
-    const today = new Date()
+    const today = new Date();
+	// create timestamp
+	// (today.getMinutes()<10?'0':'') is used to add a 0 in front of single digit minutes
+	// for example:
+	// 23:05 in realtime would've returned -> 23:5 without a 0 in front of the five
+	const timestamp = (today.getHours()<10?'0':'') + today.getHours()
+						+ ":" + (today.getMinutes()<10?'0':'') + today.getMinutes()
+						+ ":" + (today.getSeconds()<10?'0':'') + today.getSeconds();
 
 	try {
   		const docRef = await addDoc(collection(db, "messages"), {
   		  username: username,
 		  text: text,
-		  timestamp: today.getHours() + ":" + today.getMinutes()
+		  timestamp: timestamp
   		});
 	  console.log("Document written with ID: ", docRef.id);
 	} catch (e) {

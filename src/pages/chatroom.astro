@@ -10,7 +10,7 @@ import MessageBoard from "../components/MessageBoard.svelte";
   <body>
     <script>
         import { storeMessage } from "../scripts/database"
-        import { ERROR, LOG } from "../scripts/utils";
+        import { ERROR, validateInput } from "../scripts/utils";
 
         // avoid users opening /chatroom directly as an url
         // this checks that the user has correctly logged in and set up an username
@@ -26,7 +26,24 @@ import MessageBoard from "../components/MessageBoard.svelte";
 
 		// assign send button event
 		if(send_btn !== null && message_input !== null) {
-			send_btn.addEventListener("click", () => { storeMessage(username, message_input.value) });
+			send_btn.addEventListener("click", () => {
+				if(!validateInput(message_input.value)) { return; }
+				storeMessage(username, message_input.value);
+			});
+
+			message_input.addEventListener("keypress", (event) => {
+				// lister for enter keydown
+				if(event.key === "Enter") {
+					// check message input value
+					if(!validateInput(message_input.value)) { return; }
+					// prevent default action
+					event.preventDefault();
+					// click the send button
+					send_btn.click();
+					// clear message input bar
+					message_input.value = "";
+				}
+			});
 		}
 	</script>
 	<!-- site background -->
