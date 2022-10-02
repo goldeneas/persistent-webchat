@@ -1,0 +1,49 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <script>
+      import { get } from "svelte/store";
+      import { username } from "../scripts/stores"
+
+		  // get html elements from webpage
+      let go_button = (document.getElementById("go-btn") as HTMLButtonElement);
+      let username_input = (document.getElementById("username-input") as HTMLInputElement);
+
+		  // assign send button event
+      if(go_button !== null && username_input !== null) {
+			  go_button.addEventListener("click", () => {
+          const current_username = username_input.value;
+
+          if(current_username === "" || current_username === " ") { return; }
+          username.update((name) => current_username);
+          console.log(get(username));
+        });
+		  }
+    </script>
+
+    <!-- background -->
+    <div class="absolute bg-gray-800 w-screen h-screen" />
+
+    <!-- username prompt -->
+    <div class="relative w-screen h-screen">
+        <!-- username input -->
+        <input
+            type="text"
+            id="username-input"
+            class="absolute bg-white rounded-sm h-8 px-1.5 py-1 w-48 bottom-[50vh] left-[40vw]"
+            placeholder="username"
+        >
+
+        <!-- confirm username button -->
+        <button
+        id="go-btn"
+        class="absolute bg-sky-600 text-white rounded-sm w-24 h-8 bottom-[50vh] left-[51vw] font-thin">
+            login
+        </button>
+    </div>
+
+  </body>
+</html>

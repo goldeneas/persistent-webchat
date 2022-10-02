@@ -1,5 +1,5 @@
-import { app } from "./firebase";
-import { getFirestore, addDoc, getDocs, collection, query, doc } from "firebase/firestore";
+import { app } from "./firebaseapp";
+import { getFirestore, addDoc, getDocs, collection } from "firebase/firestore";
 
 const db = getFirestore(app);
 
@@ -37,4 +37,4 @@ async function getMessages(): Promise<message[]> {
 	return messages;
 }
 
-export { storeMessage, getMessages }
+export { db, storeMessage, getMessages }

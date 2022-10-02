@@ -1,0 +1,58 @@
+---
+import MessageBoard from "../components/MessageBoard.svelte";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <script>
+        import { storeMessage } from "../scripts/database"
+        import { ERROR, LOG } from "../scripts/utils";
+
+        // avoid users opening /chatroom directly as an url
+        // this checks that the user has correctly logged in and set up an username
+        // if they haven't, an error page is shown and they aren't allowed in the chatroom
+        const username = localStorage.getItem("username")!;
+        if(username === null) {
+            ERROR("User has not logged in!");
+        }
+
+		// get html elements from webpage
+		let send_btn = (document.getElementById("send-btn") as HTMLButtonElement);
+		let message_input = (document.getElementById("message-input") as HTMLInputElement);
+
+		// assign send button event
+		if(send_btn !== null && message_input !== null) {
+			send_btn.addEventListener("click", () => { storeMessage(username, message_input.value) });
+		}
+	</script>
+	<!-- site background -->
+	<div class="absolute bg-gray-200 w-screen h-screen" />
+
+	<!-- lower message section maybe rmeove hscrreen wscreen-->
+	<div class="relative h-screen w-screen">
+
+		<!-- message board -->
+		<MessageBoard client:load/>
+		
+		<!-- send button -->
+		<button
+			id="send-btn"
+			class="absolute inset-x-0 left-2 bottom-2 h-10 w-36 rounded-md text-white text-center p-2 bg-sky-600">
+			send
+		</button>
+		
+		<!-- message input -->
+		<input 
+			type="text" 
+			id="message-input" 
+			class="absolute left-40 bottom-2 border-4 w-[91vw] h-10 py-1 px-1.5 rounded-md border-gray-300 bg-gray-300" 
+			placeholder="write a message..."
+			required=" "
+		/>
+	</div>
+  </body>
+</html>

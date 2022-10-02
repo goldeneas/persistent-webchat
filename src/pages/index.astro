@@ -1,47 +1,16 @@
----
-import MessageBoard from "../components/MessageBoard.svelte";
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>WebChat</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ChatRoom</title>
 </head>
 <body>
+
 	<script>
-		import { storeMessage } from "../scripts/database"
-
-		let send_btn = document.getElementById("send-btn");
-		if(send_btn !== null) {
-			send_btn.addEventListener("click", () => { storeMessage('test', 'test2') });
-		}
+		// redirect to login page
+		window.location.replace("/login");
 	</script>
-	<!-- site background -->
-	<div class="absolute bg-gray-200 w-screen h-screen" />
 
-	<!-- lower message section -->
-	<div class="relative h-screen w-screen">
-
-		<!-- message board -->
-		<MessageBoard />
-		
-		<!-- send button -->
-		<button
-			id="send-btn"
-			class="absolute inset-x-0 left-2 bottom-2 h-10 w-36 rounded-md text-white text-center p-2 bg-sky-600">
-			send
-		</button>
-		
-		<!-- message input -->
-		<input 
-			type="text" 
-			id="message" 
-			class="absolute left-40 bottom-2 border-4 w-[91vw] h-10 py-1 px-1.5 rounded-md border-gray-300 bg-gray-300" 
-			placeholder="write a message..."
-			required=" "
-		/>
-	</div>
 </body>
 </html>
