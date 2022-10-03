@@ -7,7 +7,7 @@
 </head>
 <body>
     <script>
-        import { LOG } from "../scripts/utils";
+        import { IS_EMPTY, LOG } from "../scripts/utils";
 
 		// get html elements from webpage
         let go_button = (document.getElementById("go-btn") as HTMLButtonElement);
@@ -19,7 +19,7 @@
                 const current_username = username_input.value;
 
                 // check if username is valid
-                if(current_username === "" || current_username === " ") { LOG("Invalid username"); return; }
+                if(IS_EMPTY(current_username)) { LOG("Invalid username"); return; }
                 // if it is, set it in localstorage
                 localStorage.setItem("username", current_username);
                 // and navigate to the chatroom

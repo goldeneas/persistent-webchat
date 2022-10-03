@@ -10,32 +10,29 @@ import MessageBoard from "../components/MessageBoard.svelte";
   <body>
     <script>
         import { storeMessage } from "../scripts/database"
-        import { ERROR, validateInput } from "../scripts/utils";
+        import { ERROR, ABORT, IS_EMPTY } from "../scripts/utils";
 
         // avoid users opening /chatroom directly as an url
         // this checks that the user has correctly logged in and set up an username
         // if they haven't, an error page is shown and they aren't allowed in the chatroom
         const username = localStorage.getItem("username")!;
         if(username === null) {
-            ERROR("User has not logged in!");
+            ABORT("User is not logged in!");
         }
 
 		// get html elements from webpage
-		let send_btn = (document.getElementById("send-btn") as HTMLButtonElement);
-		let message_input = (document.getElementById("message-input") as HTMLInputElement);
+		const send_btn = (document.getElementById("send-btn") as HTMLButtonElement);
+		const message_input = (document.getElementById("message-input") as HTMLInputElement);
 
 		// assign send button event
-		if(send_btn !== null && message_input !== null) {
-			send_btn.addEventListener("click", () => {
-				if(!validateInput(message_input.value)) { return; }
+		send_btn.addEventListener("click", () => {
+				if(IS_EMPTY(message_input.value)) { ERROR("Message input is invalid"); return; }
 				storeMessage(username, message_input.value);
-			});
+		});
 
-			message_input.addEventListener("keypress", (event) => {
+		message_input.addEventListener("keypress", (event) => {
 				// lister for enter keydown
 				if(event.key === "Enter") {
-					// check message input value
-					if(!validateInput(message_input.value)) { return; }
 					// prevent default action
 					event.preventDefault();
 					// click the send button
@@ -43,8 +40,7 @@ import MessageBoard from "../components/MessageBoard.svelte";
 					// clear message input bar
 					message_input.value = "";
 				}
-			});
-		}
+		});
 	</script>
 	<!-- site background -->
 	<div class="absolute bg-gray-200 w-screen h-screen" />

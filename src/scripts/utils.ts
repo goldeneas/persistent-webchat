@@ -1,15 +1,19 @@
+function ABORT(message: string) {
+    console.log("ABORT:", message);
+    window.location.href = "/error";
+}
+
 function ERROR(message: string) {
     console.log("ERROR:", message);
-    window.location.href = "/error";
 }
 
 function LOG(message: string) {
     console.log("LOG:", message);
 }
 
-function validateInput(input: string) {
+function IS_EMPTY(str: string) {
     // check if input doesn't have spaces and if the input is not null
-    return (/[^ ]/.test(input) && input !== "");
+    return (!/\S/.test(str) || str === "");
 }
 
-export { LOG, ERROR, validateInput}
+export { ABORT, ERROR, LOG, IS_EMPTY }
