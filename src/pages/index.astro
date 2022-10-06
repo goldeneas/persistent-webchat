@@ -7,35 +7,33 @@
 </head>
 <body>
     <script>
-        import { IS_EMPTY, LOG } from "../scripts/utils";
+        import { IS_EMPTY, ERROR } from "../scripts/utils";
 
 		// get html elements from webpage
-        let go_button = (document.getElementById("go-btn") as HTMLButtonElement);
-        let username_input = (document.getElementById("username-input") as HTMLInputElement);
+        const go_button = (document.getElementById("go-btn") as HTMLButtonElement);
+        const username_input = (document.getElementById("username-input") as HTMLInputElement);
         
         // assign events
-        if(go_button !== null && username_input !== null) {
-		    go_button.addEventListener("click", () => {
-                const current_username = username_input.value;
+        go_button.addEventListener("click", () => {
+            const current_username = username_input.value;
 
-                // check if username is valid
-                if(IS_EMPTY(current_username)) { LOG("Invalid username"); return; }
-                // if it is, set it in localstorage
-                localStorage.setItem("username", current_username);
-                // and navigate to the chatroom
-                window.location.href = "/chatroom";
-            });
+            // check if username is valid
+            if(IS_EMPTY(current_username)) { ERROR("Invalid username"); return; }
+            // if it is, set it in localstorage
+            localStorage.setItem("username", current_username);
+            // and navigate to the chatroom
+            window.location.href = "/chatroom";
+        });
 
-			username_input.addEventListener("keypress", (event) => {
-				// lister for enter keydown
-				if(event.key === "Enter") {
-					// prevent default action
-					event.preventDefault();
-					// click the send button
-					go_button.click();
-				}
-			});
-	    }
+		username_input.addEventListener("keypress", (event) => {
+            // lister for enter keydown
+            if(event.key === "Enter") {
+                // prevent default action
+                event.preventDefault();
+                // click the send button
+                go_button.click();
+            }
+		});
     </script>
 
     <!-- background -->
